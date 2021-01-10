@@ -1,7 +1,5 @@
 package com.p6.demo.currrent3;
 
-import com.alibaba.fastjson.JSON;
-
 import java.util.Queue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
