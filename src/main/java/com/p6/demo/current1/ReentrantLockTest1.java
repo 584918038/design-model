@@ -11,6 +11,8 @@ public class ReentrantLockTest1 {
 
     static int value = 0;
 
+    volatile
+
     static Lock lock = new ReentrantLock();
 
     public static void incr() {
