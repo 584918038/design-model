@@ -1,0 +1,7 @@
+
+spring:
+  datasource:
+    username: root
+    password: rootroot
+    url: jdbc:mysql://localhost:3306/guns_rest?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.jdbc.Driver
