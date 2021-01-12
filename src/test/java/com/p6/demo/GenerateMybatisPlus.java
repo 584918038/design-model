@@ -40,7 +40,7 @@ public class GenerateMybatisPlus {
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
-        gc.setOutputDir(projectPath + "/design-model/src/main/java");
+        gc.setOutputDir(projectPath + "/src/main/java");
         gc.setAuthor("xshlxx@126.com");
         gc.setOpen(false);
 //        gc.setBaseResultMap(true);
@@ -88,7 +88,7 @@ public class GenerateMybatisPlus {
                /* return projectPath + "/src/main/resources/mappers/" + pc.getModuleName()
                         + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;*/
                 //根据自己的位置修改
-                return projectPath + "/design-model/src/main/resources/mapper/" +tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+                return projectPath + "/src/main/resources/mapper/" +tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
             }
         });
         /*
