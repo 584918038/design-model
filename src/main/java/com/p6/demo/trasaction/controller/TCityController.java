@@ -8,6 +8,9 @@ import com.p6.demo.trasaction.service.ITLevelService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +36,12 @@ public class TCityController {
 
     @Autowired
     private ITLevelService levelService;
+
+    @Autowired
+    private DataSourceTransactionManager dataSourceTransactionManager;
+
+    @Autowired
+    private TransactionDefinition transactionDefinition;
 
     @GetMapping("/transaction")
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
@@ -147,6 +156,35 @@ public class TCityController {
 //        int midValue = 9/0;
 
         // 预测结果为: 沈阳中毒了提交成功！ 998未提交成功！
+    }
+
+    @GetMapping("/transaction/state")
+    public void stateTransaction() {
+
+        // 手动开启事务
+        TransactionStatus transactionStatus = null;
+
+        try {
+            // 手动开启事务
+            transactionStatus = dataSourceTransactionManager.getTransaction(transactionDefinition);
+
+            TCity cityInfo = cityService.getById(1);
+            cityInfo.setProvinceId(998);
+            cityService.updateById(cityInfo);
+            // 下面这行会抛错，如果事务生效那么必然会提交失败
+            int x = 9/0;
+            // 提交事务
+            dataSourceTransactionManager.commit(transactionStatus);
+        }catch (Exception ex) {
+
+            // 事务回滚
+            if (transactionStatus != null) {
+                log.info("事务回滚--start");
+                dataSourceTransactionManager.rollback(transactionStatus);
+                log.info("事务回滚--end");
+            }
+
+        }
     }
 
 }
