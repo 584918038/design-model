@@ -4,7 +4,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * @author 徐恩晗 xshlxx@126.com
+ * @author 扫地僧 xshlxx@126.com
  * @since 2021/1/15
  */
 public class SaveProcessor extends Thread implements RequestProcessor{

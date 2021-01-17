@@ -1,7 +1,7 @@
 package com.p6.demo.current.example;
 
 /**
- * @author 徐恩晗 xshlxx@126.com
+ * @author 扫地僧 xshlxx@126.com
  * @since 2020/12/21
  */
 public class ThreadLocalDemo {
