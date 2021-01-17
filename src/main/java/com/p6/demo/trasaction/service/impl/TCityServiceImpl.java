@@ -28,7 +28,7 @@ public class TCityServiceImpl extends ServiceImpl<TCityMapper, TCity> implements
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRES_NEW)
     public void alterCityInfo(TCity city) {
 
-        TCity cityInfo = cityMapper.selectById(2);
+        TCity cityInfo = cityMapper.selectById(1);
         cityInfo.setCity("沈阳解毒");
         cityMapper.updateById(cityInfo);
 

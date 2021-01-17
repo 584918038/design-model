@@ -51,13 +51,16 @@ public class TCityController {
 
         // city： 1 沈阳 2 大连
         TCity cityInfo = cityService.getById(1);
-        log.info("城市信息:{}",cityInfo);
+        cityInfo.setCity("我要回家!");
+
+        cityService.updateById(cityInfo);
+        log.info("城市信息:{}", cityInfo);
 
         // level: 1 铜牌 2 银牌会员 3 金牌会员
         TLevel levelInfo = levelService.getById(1);
-        log.info("等级信息:{}",levelInfo);
+        log.info("等级信息:{}", levelInfo);
 
-        throw new IllegalArgumentException("测试抛出异常");
+//        throw new IllegalArgumentException("测试抛出异常");
     }
 
     @GetMapping("/transaction/mid")
@@ -68,14 +71,14 @@ public class TCityController {
 
         // city： 1 沈阳 2 大连
         TCity cityInfo = cityService.getById(1);
-        log.info("城市信息:{}",cityInfo);
+        log.info("城市信息:{}", cityInfo);
 
         // 会抛出异常
-        int midValue = 9/0;
+        int midValue = 9 / 0;
 
         // level: 1 铜牌 2 银牌会员 3 金牌会员
         TLevel levelInfo = levelService.getById(1);
-        log.info("等级信息:{}",levelInfo);
+        log.info("等级信息:{}", levelInfo);
 
         // result: 未执行第二个操作,其实上面的读是热身，只能让你有个感觉，下面是重头戏，让我们针对写进行操作
     }
@@ -90,20 +93,20 @@ public class TCityController {
         TCity cityInfo = cityService.getById(1);
         cityInfo.setCity("沈阳中毒了");
         cityService.updateById(cityInfo);
-        log.info("数据库应该更正的信息为:{}",cityInfo);
+        log.info("数据库应该更正的信息为:{}", cityInfo);
 
         // 会抛出异常
-        int midValue = 9/0;
+        int midValue = 9 / 0;
 
         // level: 1 铜牌 2 银牌会员 3 金牌会员
         TLevel levelInfo = levelService.getById(1);
-        log.info("等级信息:{}",levelInfo);
+        log.info("等级信息:{}", levelInfo);
 
         // 结果当然是数据库没有被更新，因为存在事务java.lang.ArithmeticException是Exception的子类，必背捕获因此必背捕获!
         // 那么抛出两个问题:
         // 1、是如何回滚的
         // 2、在没有提交前我们update所执行的操作到哪里去了？
-        // 这两个问题在后面会解决
+        //
         // 以上三个案例演示了，事务是一体的，要么全部成功，要么全部失败！
         // 那么存在一种场景请求A涉及到了两个数据库请求例如: 我们redis 定时同步 mysql 数据，采取的方式就是成功的就提交，不成功的移交到队列里面再次尝试
         // 这里就要说到了我们的 propagation = Propagation.REQUIRES_NEW
@@ -128,9 +131,9 @@ public class TCityController {
 
         cityInfo.setProvinceId(998);
         cityService.updateById(cityInfo);
-        log.info("数据库应该更正的信息为:{}",cityInfo);
+        log.info("数据库应该更正的信息为:{}", cityInfo);
         // 会抛出异常
-        int midValue = 9/0;
+        int midValue = 9 / 0;
 
         // 预测结果为: 沈阳中毒了提交成功！ 998未提交成功！
         // 但是在我做这个这个案例的时候，如果我这么移动，如下:
@@ -147,7 +150,8 @@ public class TCityController {
         TCity cityInfo = cityService.getById(1);
         cityInfo.setProvinceId(998);
         cityService.updateById(cityInfo);
-        log.info("数据库应该更正的信息为:{}",cityInfo);
+        log.info("数据库应该更正的信息为:{}", cityInfo);
+
 
         // city： 1 沈阳沈阳小沈阳 ---> 沈阳中毒了
         cityService.alterCityInfo(cityInfo);
@@ -172,10 +176,24 @@ public class TCityController {
             cityInfo.setProvinceId(998);
             cityService.updateById(cityInfo);
             // 下面这行会抛错，如果事务生效那么必然会提交失败
-            int x = 9/0;
+            int x = 9 / 0;
             // 提交事务
             dataSourceTransactionManager.commit(transactionStatus);
-        }catch (Exception ex) {
+
+
+            // 在JDBC的基础之上拿到数据库连接connection , 是基于JDBC的
+
+            // 1、 拿到一个connection对象，并且把自动提交设置为false
+
+            // 2、 如果说要提交，拿到当前的connection对象，然后执行connection.commit()
+
+            // 3、 如果说要回滚，拿到当前的connection对象，然后执行connection.rollback()
+
+            // 4、
+
+
+
+        } catch (Exception ex) {
 
             // 事务回滚
             if (transactionStatus != null) {
